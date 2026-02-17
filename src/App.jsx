@@ -27,7 +27,28 @@ function App() {
   };
 
   const onDragEnd = (result) => {
-    console.log(result);
+    const { destination, source, draggableId } = result;
+
+    if (!destination) return;
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    const updatedTasks = tasks.map(task => {
+      if (task.id.toString() === draggableId) {
+        return {
+          ...task,
+          status: destination.droppableId
+        };
+      }
+      return task;
+    });
+
+    setTasks(updatedTasks);
   };
 
   return (
