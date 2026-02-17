@@ -3,19 +3,41 @@ import './App.css'
 import Column from './components/Column'
 
 function App() {
-  // مصفوفة تجريبية للمهام
   const [tasks, setTasks] = useState([
     { id: 1, text: "تصميم واجهة المستخدم", status: "Tasks" },
     { id: 2, text: "إعداد مستودع GitHub", status: "In Progress" },
     { id: 3, text: "تعلم الـ Hooks", status: "Completed" },
-    { id: 4, text: "تليغ مثال", status: "Tasks" },
   ]);
+
+  const [input, setInput] = useState("");
+
+  const addTask = (e) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+
+    const newTask = {
+      id: Date.now(),
+      text: input,
+      status: "Tasks"
+    };
+
+    setTasks([...tasks, newTask]);
+    setInput("");
+  };
 
   return (
     <div className="app-container">
       <h1>Project Management Tool</h1>
+      <form onSubmit={addTask} className="add-task-form">
+        <input 
+          type="text" 
+          value={input} 
+          onChange={(e) => setInput(e.target.value)} 
+          placeholder="Add a new task..."
+        />
+        <button type="submit">Add Task</button>
+      </form>
       <div className="containers">
-        {/* سنقوم هنا بتصفية المهام لكل عمود */}
         <Column 
           title="Tasks" 
           className="box-1" 
